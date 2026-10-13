@@ -1,0 +1,128 @@
+{
+  "created_utc": "2026-10-13T13:00:22+00:00",
+  "data_file": "coffee_ratings.csv",
+  "data_sha256": "ae6fdd58f4a7f77397c11c2657e22be8aa8f746bdc5a74cf479e981bd3c25d5e",
+  "git_commit": null,
+  "git_uncommitted_changes": null,
+  "python": "3.13.16",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.5",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "lightgbm": "4.7.0",
+    "matplotlib": "3.11.2"
+  },
+  "config": {
+    "seed": 0,
+    "features": [
+      "country",
+      "process",
+      "variety",
+      "species",
+      "color",
+      "altitude_m",
+      "moisture",
+      "category_one_defects",
+      "category_two_defects",
+      "quakers"
+    ],
+    "targets": [
+      "aroma",
+      "flavor",
+      "aftertaste",
+      "acidity",
+      "body",
+      "balance",
+      "total_cup_points"
+    ],
+    "models": [
+      "mean",
+      "ridge",
+      "random_forest",
+      "lightgbm"
+    ],
+    "schemes": [
+      "grouped",
+      "random",
+      "time"
+    ],
+    "folds": 5,
+    "group": "owner",
+    "time_split": "graded before 2016 vs 2016 to 2018"
+  },
+  "cleaning_steps": [
+    {
+      "rule": "empty_scores",
+      "description": "every attribute score is zero",
+      "rows_failing": 1,
+      "action": "drop",
+      "rows_before": 1339,
+      "rows_after": 1338
+    },
+    {
+      "rule": "total_not_sum",
+      "description": "total score differs from the sum of the ten attributes by more than 0.5",
+      "rows_failing": 0,
+      "action": "drop",
+      "rows_before": 1338,
+      "rows_after": 1338
+    },
+    {
+      "rule": "score_out_of_range",
+      "description": "an attribute score is outside 0 to 10",
+      "rows_failing": 0,
+      "action": "drop",
+      "rows_before": 1338,
+      "rows_after": 1338
+    },
+    {
+      "rule": "altitude_implausible",
+      "description": "altitude below 100 m or above 3,000 m (lost decimals, feet typed as metres)",
+      "rows_failing": 35,
+      "action": "set_missing:altitude_mean_meters",
+      "rows_before": 1338,
+      "rows_after": 1338
+    },
+    {
+      "rule": "moisture_zero",
+      "description": "moisture recorded as 0 (green coffee is usually 8 to 13%): missing value coded as zero",
+      "rows_failing": 264,
+      "action": "set_missing:moisture",
+      "rows_before": 1338,
+      "rows_after": 1338
+    },
+    {
+      "rule": "moisture_high",
+      "description": "moisture above 20%",
+      "rows_failing": 3,
+      "action": "flag",
+      "rows_before": 1338,
+      "rows_after": 1338
+    },
+    {
+      "rule": "process_missing",
+      "description": "processing method missing",
+      "rows_failing": 169,
+      "action": "flag",
+      "rows_before": 1338,
+      "rows_after": 1338
+    },
+    {
+      "rule": "grading_date_unparsed",
+      "description": "grading date cannot be parsed",
+      "rows_failing": 2,
+      "action": "flag",
+      "rows_before": 1338,
+      "rows_after": 1338
+    },
+    {
+      "rule": "duplicate_record",
+      "description": "same owner, country, date and identical scores as an earlier row",
+      "rows_failing": 2,
+      "action": "flag",
+      "rows_before": 1338,
+      "rows_after": 1338
+    }
+  ]
+}

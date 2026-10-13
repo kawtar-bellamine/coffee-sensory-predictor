@@ -1,0 +1,10 @@
+rule,description,rows_failing,action,rows_before,rows_after
+empty_scores,every attribute score is zero,1,drop,1339,1338
+total_not_sum,total score differs from the sum of the ten attributes by more than 0.5,0,drop,1338,1338
+score_out_of_range,an attribute score is outside 0 to 10,0,drop,1338,1338
+altitude_implausible,"altitude below 100 m or above 3,000 m (lost decimals, feet typed as metres)",35,set_missing:altitude_mean_meters,1338,1338
+moisture_zero,moisture recorded as 0 (green coffee is usually 8 to 13%): missing value coded as zero,264,set_missing:moisture,1338,1338
+moisture_high,moisture above 20%,3,flag,1338,1338
+process_missing,processing method missing,169,flag,1338,1338
+grading_date_unparsed,grading date cannot be parsed,2,flag,1338,1338
+duplicate_record,"same owner, country, date and identical scores as an earlier row",2,flag,1338,1338

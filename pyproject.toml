@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coffee-sensory-predictor"
+version = "1.0.0"
+description = "Predicting the cup profile of a coffee from its product data, with traceable data validation and honest validation"
+authors = [{ name = "Abderrahmane BOULAMI" }, { name = "Kawtar BELLAMINE" }]
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "scipy>=1.11",
+    "scikit-learn>=1.6",
+    "matplotlib>=3.8",
+    "streamlit>=1.51",
+    "altair>=5.0",
+    "lightgbm>=4.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.setuptools]
+packages = ["coffeepred"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
